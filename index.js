@@ -1,9 +1,13 @@
+<<<<<<< HEAD
 // main server code
+=======
+>>>>>>> edd9cddeea612e58f6c5793ed6032178c2cc8a7c
 require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
 const axios = require('axios');
 const verifyToken = require('./verifyToken');
+<<<<<<< HEAD
 const { SessionsClient } = require('@google-cloud/dialogflow');
 
 const app = express();
@@ -39,6 +43,19 @@ app.post('/webhook', async (req, res) => {
 async function sendToDialogflow(message, sessionId) {
   const sessionClient = new SessionsClient();
   const sessionPath = sessionClient.projectAgentSessionPath(DIALOGFLOW_PROJECT_ID, sessionId);
+=======
+
+const app = express();
+app.use(bodyParser.json());
+async function sendToDialogflow(message, sessionId) {
+  const dialogflow = require('@google-cloud/dialogflow');
+  const sessionClient = new dialogflow.SessionsClient();
+
+  const sessionPath = sessionClient.projectAgentSessionPath(
+    process.env.DIALOGFLOW_PROJECT_ID,
+    sessionId
+  );
+>>>>>>> edd9cddeea612e58f6c5793ed6032178c2cc8a7c
 
   const request = {
     session: sessionPath,
@@ -54,6 +71,7 @@ async function sendToDialogflow(message, sessionId) {
   return responses[0].queryResult;
 }
 
+<<<<<<< HEAD
 // Send reply to Facebook Messenger
 async function sendMessage(recipientId, messageText) {
   const url = `https://graph.facebook.com/v17.0/me/messages?access_token=${PAGE_ACCESS_TOKEN}`;
@@ -75,3 +93,24 @@ async function sendMessage(recipientId, messageText) {
 app.listen(process.env.PORT || 3000, () => {
   console.log('Server is running...');
 });
+=======
+async function sendMessage(senderId, text) {
+  const url = https://graph.facebook.com/v19.0/me/messages?access_token=${PAGE_ACCESS_TOKEN};
+
+  const messageData = {
+    recipient: { id: senderId },
+    message: { text },
+  };
+
+  try {
+    await axios.post(url, messageData);
+  } catch (error) {
+    console.error("Facebook API error:", error.response?.data || error.message);
+  }
+}
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  //console.log(Server is listening on port ${PORT});
+});
+>>>>>>> edd9cddeea612e58f6c5793ed6032178c2cc8a7c
