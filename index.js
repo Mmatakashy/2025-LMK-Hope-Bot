@@ -1,20 +1,12 @@
 // main server code
+require('dotenv').config();
+const express = require('express');
+const bodyParser = require('body-parser');
+const axios = require('axios');
+const verifyToken = require('./verifyToken');
 
-// Add required modules
-//Add  your codes here
-//
-
-
-
-
-
-
-
-
-
-
-
-
+const app = express();
+app.use(bodyParser.json());
 async function sendToDialogflow(message, sessionId) {
   const dialogflow = require('@google-cloud/dialogflow');
   const sessionClient = new dialogflow.SessionsClient();
@@ -55,6 +47,5 @@ async function sendMessage(senderId, text) {
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`Server is listening on port ${PORT}`);
+  //console.log(Server is listening on port ${PORT});
 });
-
